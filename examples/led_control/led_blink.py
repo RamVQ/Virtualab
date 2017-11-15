@@ -25,8 +25,9 @@ def main():
 	while True:
 		
 		#testing
-
-		time.sleep(3) #delay in seconds	
+		
+		GPIO.output(LED,GPIO.LOW)
+		time.sleep(1) #delay in seconds	
 		GPIO.output(LED,GPIO.HIGH)
 
 	#end of while
