@@ -26,7 +26,7 @@ def main():
 		
 		#testing
 		time.sleep(1) #delay in seconds	
-		if (GPIO.input(PUSH_BUTTON) == True)
+		if (GPIO.input(PUSH_BUTTON) == True):
 			print "button has been pressed"
 			#end of  if		
 
