@@ -29,6 +29,7 @@ def main():
 		GPIO.output(LED,GPIO.LOW)
 		time.sleep(1) #delay in seconds	
 		GPIO.output(LED,GPIO.HIGH)
+		print "blinking"
 
 	#end of while
 
@@ -36,12 +37,7 @@ def main():
 
 #######SCRIPT EXECUTION#########################
 
-if __name__=='__main__':
-
-	try:main()
-	except KeyboardInterrupt:pass
-	finally:
-		GPIO.cleanup()			
+main()		
 
 
 
