@@ -10,7 +10,7 @@ import time
 
 ######2.SCRIPT CONST###############################
 
-LED = 7 #GPIO  assigned to led
+LED = 4 #BCM GPIO  assigned to led
 
 #######END OF SCRIPT CONST######################
 
