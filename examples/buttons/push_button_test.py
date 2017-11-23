@@ -21,14 +21,18 @@ def main():
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PUSH_BUTTON,GPIO.IN)#LED pin setup
-
+	current_state = True;
+	
 	while True:
 		
-		#testing
-		time.sleep(1) #delay in seconds	
-		if (GPIO.input(PUSH_BUTTON) == True):
-			print "button has been pressed"
-			#end of  if		
+		time.sleep(0.05) #delay in seconds
+	
+		if (current_state == True):
+			if (GPIO.input(PUSH_BUTTON) == False):
+				current_state = False;
+		else:
+			if (GPIO.input(PUSH_BUTTON) == True):
+				current_state = True;
 
 	#end of while
 
