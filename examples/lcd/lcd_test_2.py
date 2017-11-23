@@ -55,7 +55,7 @@
 import RPi.GPIO as GPIO
 import time
 
-# Definición de los pines datos control del LCD
+# Definicion de los pines datos control del LCD
 # Define GPIO to LCD mapping
 LCD_RS = 7
 LCD_E  = 8
