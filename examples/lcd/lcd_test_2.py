@@ -81,7 +81,7 @@ def main():
   # Main program block
   
   
-  #Inicialización de los pines I/O del RPi
+  #Inicializacion de los pines I/O del RPi
   GPIO.setwarnings(False)
   GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
   GPIO.setup(LCD_E, GPIO.OUT)  # E
@@ -100,7 +100,7 @@ def main():
 
     # Send some test
     lcd_string("Rasbperry Pi",LCD_LINE_1)
-    lcd_string("Proyectos básicos",LCD_LINE_2)
+    lcd_string("Proyecto LCD",LCD_LINE_2)
 
     time.sleep(3) # 3 second delay
 
