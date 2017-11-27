@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#1.INFORMATION
 #--------------------------------------
 # 
 # Author		: Ramiro Vargas
@@ -39,12 +39,15 @@
 # 15: LCD Backlight +5V**
 # 16: LCD Backlight GND
 
-#import
+#2. IMPORTS
 import RPi.GPIO as GPIO
 import time
+import os
+import glob
 
-# Definicion de los pines datos control del LCD
-# Define GPIO to LCD mapping
+
+#3. DEFINING LCD PINS (control/data)
+
 LCD_RS = 7
 LCD_E  = 8
 LCD_D4 = 25
@@ -52,8 +55,7 @@ LCD_D5 = 24
 LCD_D6 = 23
 LCD_D7 = 18
 
-# Constantes del LCD
-# Define some device constants
+#4. LCD CONSTANTS
 LCD_WIDTH = 16    # Maximum characters per line
 LCD_CHR = True
 LCD_CMD = False
@@ -65,39 +67,63 @@ LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
 E_PULSE = 0.0005
 E_DELAY = 0.0005
 
+#5. THERMAL SENSOR CONSTANTS
+base_dir = '/sys/bus/w1/devices/'
+
+#6. FUNCTION DEFINITION
 def main():
-  # Main program block
   
+	#thermal sensor folder setup
+	device_folder = glob.glob(base_dir + '28*')[0]
+	device_file = device_folder + '/w1_slave'
   
-  #Inicializacion de los pines I/O del RPi
-  GPIO.setwarnings(False)
-  GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
-  GPIO.setup(LCD_E, GPIO.OUT)  # E
-  GPIO.setup(LCD_RS, GPIO.OUT) # RS
-  GPIO.setup(LCD_D4, GPIO.OUT) # DB4
-  GPIO.setup(LCD_D5, GPIO.OUT) # DB5
-  GPIO.setup(LCD_D6, GPIO.OUT) # DB6
-  GPIO.setup(LCD_D7, GPIO.OUT) # DB7
+	#I/O pins setup
+	GPIO.setwarnings(False)
+	GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+	GPIO.setup(LCD_E, GPIO.OUT)  # E
+	GPIO.setup(LCD_RS, GPIO.OUT) # RS
+	GPIO.setup(LCD_D4, GPIO.OUT) # DB4
+	GPIO.setup(LCD_D5, GPIO.OUT) # DB5
+	GPIO.setup(LCD_D6, GPIO.OUT) # DB6
+	GPIO.setup(LCD_D7, GPIO.OUT) # DB7
 
+	# Initialise display
+	lcd_init()
 
-  # Inicializando el LCD	
-  # Initialise display
-  lcd_init()
+	while True:
 
-  while True:
+		# Send some test
+		lcd_string("Rasbperry Pi",LCD_LINE_1)
+		lcd_string("Proyecto LCD",LCD_LINE_2)
 
-    # Send some test
-    lcd_string("Rasbperry Pi",LCD_LINE_1)
-    lcd_string("Proyecto LCD",LCD_LINE_2)
+		time.sleep(3) # 3 second delay
 
-    time.sleep(3) # 3 second delay
+		# Send some text
+		lcd_string("Bienvenidos :)",LCD_LINE_1)
+		lcd_string("Nov 2017",LCD_LINE_2)
 
-    # Send some text
-    lcd_string("Bienvenidos :)",LCD_LINE_1)
-    lcd_string("Nov 2017",LCD_LINE_2)
+		time.sleep(3)
 
-    time.sleep(3)
+#function to read sensor file	
+def read_temp_raw():
+   	f = open(device_file, 'r')
+   	lines = f.readlines()
+	f.close()
+	return lines
 
+#function to return C/F thermal sensor reading
+def read_temp():
+	lines = read_temp_raw()
+	while lines[0].strip()[-3:] != 'YES':
+		time.sleep(0.2)
+		lines = read_temp_raw()
+	equals_pos = lines[1].find('t=')
+	if equals_pos != -1:
+		temp_string = lines[1][equals_pos+2:]
+		temp_c = float(temp_string) / 1000.0
+		temp_f = temp_c * 9.0 / 5.0 + 32.0
+		return temp_c, temp_f	
+	
 def lcd_init():
   # Initialise display
   lcd_byte(0x33,LCD_CMD) # 110011 Initialise
