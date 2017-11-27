@@ -1,23 +1,11 @@
 #!/usr/bin/python
 #--------------------------------------
-#    ___  ___  _ ____
-#   / _ \/ _ \(_) __/__  __ __
-#  / , _/ ___/ /\ \/ _ \/ // /
-# /_/|_/_/  /_/___/ .__/\_, /
-#                /_/   /___/
-#
-#  lcd_16x2.py
-#  16x2 LCD Test Script
-#
-# Author : Matt Hawkins
-# Date   : 06/04/2015
-# http://www.raspberrypi-spy.co.uk/
 # 
-# Modified by	: Ramiro Vargas
+# Author		: Ramiro Vargas
 # Date			: 11/22/2017
 #
 #
-# Copyright 2015 Matt Hawkins
+# Copyright 2017 Ramiro Vargas
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #--------------------------------------
-# The wiring for the LCD is as follows):
+# The wiring for the system:
 # 1 : GND
 # 2 : 5V
 # 3 : Contrast (0-5V)*
