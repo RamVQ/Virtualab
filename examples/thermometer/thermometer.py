@@ -67,7 +67,7 @@ LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
 E_PULSE = 0.0005
 E_DELAY = 0.0005
 
-#5. THERMAL SENSOR CONSTANTS
+#5. THERMAL SENSOR DIR CONSTANTS
 base_dir = '/sys/bus/w1/devices/'
 
 #6. FUNCTION DEFINITION
@@ -97,12 +97,14 @@ def main():
 		lcd_string("Proyecto LCD",LCD_LINE_2)
 
 		time.sleep(3) # 3 second delay
-
+		
+		
 		# Send some text
 		lcd_string("Bienvenidos :)",LCD_LINE_1)
 		lcd_string("Nov 2017",LCD_LINE_2)
 
 		time.sleep(3)
+		print("Temperature(C,F)="+str(read_temp[0]))
 
 #function to read sensor file	
 def read_temp_raw():
@@ -113,6 +115,7 @@ def read_temp_raw():
 
 #function to return C/F thermal sensor reading
 def read_temp():
+	report=[]
 	lines = read_temp_raw()
 	while lines[0].strip()[-3:] != 'YES':
 		time.sleep(0.2)
@@ -122,7 +125,9 @@ def read_temp():
 		temp_string = lines[1][equals_pos+2:]
 		temp_c = float(temp_string) / 1000.0
 		temp_f = temp_c * 9.0 / 5.0 + 32.0
-		return temp_c, temp_f	
+		report[0]=temp_c
+		report[1]=temp_f
+		return report	
 	
 def lcd_init():
   # Initialise display
@@ -138,7 +143,7 @@ def lcd_byte(bits, mode):
   # Send byte to data pins
   # bits = data
   # mode = True  for character
-  #        False for command
+  # False for command
 
   GPIO.output(LCD_RS, mode) # RS
 
