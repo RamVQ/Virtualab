@@ -70,6 +70,11 @@ E_DELAY = 0.0005
 #5. THERMAL SENSOR DIR CONSTANTS
 base_dir = '/sys/bus/w1/devices/'
 
+#thermal sensor folder setup
+device_folder = glob.glob(base_dir + '28*')[0]
+device_file = device_folder + '/w1_slave'
+
+
 #6. FUNCTION DEFINITION
 def main():
   
@@ -91,23 +96,17 @@ def main():
 	lcd_init()
 
 	while True:
+	#main program loop	
+	
+		time.sleep(2)
+		Temp=read_temp()
+		print ("Temp(C)=")+str(Temp[0])+",Temp(F)="+str(Temp[1])
+		lcd_string("Temperature(C)=",LCD_LINE_1)
+		lcd_string(str(Temp[0]),LCD_LINE_2)
 
-		# Send some test
-		lcd_string("Rasbperry Pi",LCD_LINE_1)
-		lcd_string("Proyecto LCD",LCD_LINE_2)
-
-		time.sleep(3) # 3 second delay
-		
-		
-		# Send some text
-		lcd_string("Bienvenidos :)",LCD_LINE_1)
-		lcd_string("Nov 2017",LCD_LINE_2)
-
-		time.sleep(3)
-		print("Temperature(C,F)="+str(read_temp[0]))
-
-#function to read sensor file	
+#function to read sensor file
 def read_temp_raw():
+	global device_file
    	f = open(device_file, 'r')
    	lines = f.readlines()
 	f.close()
@@ -115,7 +114,7 @@ def read_temp_raw():
 
 #function to return C/F thermal sensor reading
 def read_temp():
-	report=[]
+	report=["NONE","NONE"]
 	lines = read_temp_raw()
 	while lines[0].strip()[-3:] != 'YES':
 		time.sleep(0.2)
@@ -125,9 +124,9 @@ def read_temp():
 		temp_string = lines[1][equals_pos+2:]
 		temp_c = float(temp_string) / 1000.0
 		temp_f = temp_c * 9.0 / 5.0 + 32.0
-		report[0]=temp_c
-		report[1]=temp_f
-		return report	
+		report[0]=str(temp_c)
+		report[1]=str(temp_f)
+		return  report	
 	
 def lcd_init():
   # Initialise display
