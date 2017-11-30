@@ -10,7 +10,7 @@ import time
 
 ######2.SCRIPT CONST###############################
 
-PUSH_BUTTON = 24 # GPIO  assigned to push button. BCM 24 (physical pin 18)
+PUSH_BUTTON = 14 # GPIO  assigned to push button. BCM 14 (physical pin 8)
 
 #######END OF SCRIPT CONST######################
 
@@ -20,19 +20,15 @@ PUSH_BUTTON = 24 # GPIO  assigned to push button. BCM 24 (physical pin 18)
 def main():
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup(PUSH_BUTTON,GPIO.IN)#LED pin setup
+	GPIO.setup(PUSH_BUTTON,GPIO.IN)#Button pin setup
 	current_state = True;
 	
 	while True:
-		
-		time.sleep(0.05) #delay in seconds
-	
-		if (current_state == True):
-			if (GPIO.input(PUSH_BUTTON) == False):
-				current_state = False;
-		else:
-			if (GPIO.input(PUSH_BUTTON) == True):
-				current_state = True;
+
+		#detecting if button was pressed
+		if (GPIO.input(PUSH_BUTTON) == False):
+			print "button has been pressed"
+			time.sleep(1) #delay to prevent bouncing 
 
 	#end of while
 
