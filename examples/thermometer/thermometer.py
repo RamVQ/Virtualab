@@ -111,7 +111,9 @@ def main():
 	#main program loop	
 	
 		time.sleep(2)
-	
+		Temp=read_temp()
+		print ("Temp(C)=")+str(Temp[0])+",Temp(F)="+str(Temp[1])
+		
 		#detecting if button was pressed
 		if (GPIO.input(PUSH_BUTTON) == False):
 			print "button has been pressed"
@@ -119,8 +121,6 @@ def main():
 			time.sleep(1) #delay to prevent bouncing 
 		
 		if(Toggle==-1):
-			Temp=read_temp()
-			print ("Temp(C)=")+str(Temp[0])+",Temp(F)="+str(Temp[1])
 			lcd_string("Temperature(C)=",LCD_LINE_1)
 			lcd_string(str(Temp[0]),LCD_LINE_2)
 		
