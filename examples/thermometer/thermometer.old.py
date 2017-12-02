@@ -74,15 +74,9 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
-#6. BUTTON CONST
-PUSH_BUTTON = 14 # GPIO  assigned to push button. BCM 14 (physical pin 8)
 
-
-#7. FUNCTION DEFINITION
+#6. FUNCTION DEFINITION
 def main():
-  
-	#to toggle between TempC and TempF
-	Toggle = -1 	
   
 	#thermal sensor folder setup
 	device_folder = glob.glob(base_dir + '28*')[0]
@@ -105,22 +99,10 @@ def main():
 	#main program loop	
 	
 		time.sleep(2)
-	
-		#detecting if button was pressed
-		if (GPIO.input(PUSH_BUTTON) == False):
-			print "button has been pressed"
-			time.sleep(1) #delay to prevent bouncing 
-		
-		if(Toggle==-1):
-			Temp=read_temp()
-			print ("Temp(C)=")+str(Temp[0])+",Temp(F)="+str(Temp[1])
-			lcd_string("Temperature(C)=",LCD_LINE_1)
-			lcd_string(str(Temp[0]),LCD_LINE_2)
-		
-		else:
-			lcd_string("Temperature(F)=",LCD_LINE_1)
-			lcd_string(str(Temp[1]),LCD_LINE_2)
-				
+		Temp=read_temp()
+		print ("Temp(C)=")+str(Temp[0])+",Temp(F)="+str(Temp[1])
+		lcd_string("Temperature(C)=",LCD_LINE_1)
+		lcd_string(str(Temp[0]),LCD_LINE_2)
 
 #function to read sensor file
 def read_temp_raw():
