@@ -88,7 +88,7 @@ def main():
 	device_folder = glob.glob(base_dir + '28*')[0]
 	device_file = device_folder + '/w1_slave'
   
-	#I/O pins setup
+	#I/O pins setup for LCD
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
 	GPIO.setup(LCD_E, GPIO.OUT)  # E
@@ -97,6 +97,12 @@ def main():
 	GPIO.setup(LCD_D5, GPIO.OUT) # DB5
 	GPIO.setup(LCD_D6, GPIO.OUT) # DB6
 	GPIO.setup(LCD_D7, GPIO.OUT) # DB7
+
+	#I/O pin for button
+	GPIO.setwarnings(False)
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(PUSH_BUTTON,GPIO.IN)#Button pin setup
+
 
 	# Initialise display
 	lcd_init()
@@ -109,6 +115,7 @@ def main():
 		#detecting if button was pressed
 		if (GPIO.input(PUSH_BUTTON) == False):
 			print "button has been pressed"
+			Toggle = Toggle *-1
 			time.sleep(1) #delay to prevent bouncing 
 		
 		if(Toggle==-1):
